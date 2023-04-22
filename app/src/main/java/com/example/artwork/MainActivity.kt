@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.example.artwork.ui.theme.ArtWorkTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.sp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,25 +61,16 @@ fun MainScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Surface(shadowElevation = 4.dp) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .border(4.dp, Color.Gray)
-                    .fillMaxHeight(0.75f),
-//                    .height(height = 540.dp),
-                painter = painterResource(id = R.drawable.contempary_art),
-                contentScale = ContentScale.Fit,
-                contentDescription = stringResource(id = R.string.app_name),
-            )
+            ArtImage(R.drawable.contempary_art)
         }
         Spacer(modifier = Modifier.padding(2.dp))
         Surface(shadowElevation = 4.dp) {
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = "Title may be long so be carefully it might be so long")
-                Row() {
-                    Text("artist name", fontWeight = FontWeight.Bold)
+                ArtTitle("Title may be long so be carefully it might be so long")
+                Row {
+                    ArtistName("artist name")
                     Spacer(modifier = Modifier.padding(2.dp))
-                    Text(text = "(2023)")
+                    ArtYear("2023")
                 }
 
             }
@@ -96,15 +88,47 @@ fun MainScreen(modifier: Modifier = Modifier) {
     }
 }
 
-fun changingStatus(cst: Int){
-    when(cst){
-        1-> print("")
+@Composable
+fun ArtImage(imgId: Int) {
+    Image(
+        modifier = Modifier
+            .fillMaxWidth()
+            .border(4.dp, Color.Gray)
+            .fillMaxHeight(0.75f),
+//                    .height(height = 540.dp),
+        painter = painterResource(id = imgId),
+        contentScale = ContentScale.Fit,
+        contentDescription = stringResource(id = R.string.app_name),
+    )
+}
+
+@Composable
+fun ArtTitle(label: String){
+    Text(
+        text = label,
+        fontSize = 20.sp
+    )
+}
+
+@Composable
+fun ArtistName(label: String){
+    Text(label, fontWeight = FontWeight.Bold)
+}
+
+@Composable
+fun ArtYear(label: String){
+    Text(text = "($label)")
+}
+
+fun changingStatus(cst: Int) {
+    when (cst) {
+        1 -> print("")
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainScreenPreview() {
     ArtWorkTheme {
         MainScreen()
     }
