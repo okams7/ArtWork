@@ -55,32 +55,65 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
     var currentSelection by remember { mutableStateOf(1) }
+    var currentImage by remember { mutableStateOf(R.drawable.contempary_art) }
+    var currentTitle by remember { mutableStateOf("This is the first painting") }
+    var currentArtist by remember { mutableStateOf("Jahsha Waheed") }
+    var currentYear by remember { mutableStateOf("2006") }
+    var canGoBack by remember { mutableStateOf(false) }
+    var canGoNext by remember { mutableStateOf(true) }
+    when (currentSelection) {
+        1 -> {
+            canGoBack = false
+            canGoNext = true
+            currentImage = R.drawable.contempary_art
+            currentTitle = "This is the first painting"
+            currentArtist = "Jahsha Waheed"
+            currentYear = "2006"
+        }
+        2 -> {
+            canGoNext = true
+            canGoBack = true
+            currentImage = R.drawable.van_cogh
+            currentTitle = "Dooosh wee waaa haaay"
+            currentArtist = "Van Cogh vandam"
+            currentYear = "1865"
+        }
+        3 -> {
+            canGoNext = false
+            canGoBack = true
+            currentImage = R.drawable.woman
+            currentTitle = "This is the third painting"
+            currentArtist = "Jahsha Waheed"
+            currentYear = "2013"
+        }
+    }
     Column(
         modifier = Modifier.padding(32.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Surface(shadowElevation = 4.dp) {
-            ArtImage(R.drawable.contempary_art)
+            ArtImage(currentImage)
         }
         Spacer(modifier = Modifier.padding(2.dp))
-        Surface(shadowElevation = 4.dp) {
-            Column(modifier = Modifier.padding(8.dp)) {
-                ArtTitle("Title may be long so be carefully it might be so long")
+        Surface(shadowElevation = 4.dp,modifier = Modifier
+            .fillMaxWidth()) {
+            Column(modifier = Modifier.padding(8.dp), ) {
+                ArtTitle(currentTitle)
                 Row {
-                    ArtistName("artist name")
+                    ArtistName(currentArtist)
                     Spacer(modifier = Modifier.padding(2.dp))
-                    ArtYear("2023")
+                    ArtYear(currentYear)
                 }
 
             }
         }
         Spacer(modifier = Modifier.weight(1f))
         Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-            Button(onClick = {}) {
+            Button(onClick = {currentSelection--}, enabled = canGoBack) {
                 Text(text = "Previous")
             }
-            Button(onClick = {}) {
+            Button(onClick = {currentSelection++}, enabled = canGoNext) {
                 Text(text = "Next")
             }
 
